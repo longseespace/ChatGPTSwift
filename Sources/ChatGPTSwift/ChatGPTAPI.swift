@@ -15,9 +15,35 @@ import GPTEncoder
 #endif
 
 public class ChatGPTAPI: @unchecked Sendable {
-    public enum ChatGPTAPIError: Error {
+    public enum ChatGPTAPIError: LocalizedError {
         case messageTooLong
+        case invalidAPIKey
+        case networkError
+        case responseDecodingError
+        case rateLimitExceeded
+        case requestTimeout
+        case unknownError
+
+        public var errorDescription: String? {
+            switch self {
+            case .messageTooLong:
+                return NSLocalizedString("The message you submitted was too long, please edit the message and submit something shorter.", comment: "Message Too Long Error")
+            case .invalidAPIKey:
+                return NSLocalizedString("The provided API key is invalid.", comment: "Invalid API Key Error")
+            case .networkError:
+                return NSLocalizedString("There was a problem connecting to the network.", comment: "Network Error")
+            case .responseDecodingError:
+                return NSLocalizedString("There was a problem decoding the response from the server.", comment: "Response Decoding Error")
+            case .rateLimitExceeded:
+                return NSLocalizedString("The rate limit for the API has been exceeded.", comment: "Rate Limit Exceeded Error")
+            case .requestTimeout:
+                return NSLocalizedString("The request to the server timed out.", comment: "Request Timeout Error")
+            case .unknownError:
+                return NSLocalizedString("An unknown error occurred.", comment: "Unknown Error")
+            }
+        }
     }
+
     
     public enum Constants {
         public static let defaultModel = "gpt-3.5-turbo"
